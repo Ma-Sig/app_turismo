@@ -26,6 +26,27 @@ class _TheaterScreenState extends State<TheaterScreen> {
     });
   }
 
+  Widget buildInfoRow({required IconData icon, required String label, required String text}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 20),
+        SizedBox(width: 8),
+        Expanded(
+          child: RichText(
+            text: TextSpan(
+              style: TextStyle(color: Colors.black, fontSize: 16),
+              children: [
+                TextSpan(text: '$label: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                TextSpan(text: text),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,11 +69,47 @@ class _TheaterScreenState extends State<TheaterScreen> {
             Text('Teatro Sucre', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             Text('4.6 ★★★★☆'),
             Divider(),
-            Text('Descripción: Espacio cultural icónico de Cuenca que acoge conciertos, obras de teatro y eventos artísticos.'),
-            Text('Horario: 09:00 - 21:00'),
-            Text('Dirección: Mariscal Sucre y Luis Cordero'),
-            Text('Teléfono: (07) 282 7689'),
-            Text('Historia: Inaugurado en 1878, es uno de los teatros más antiguos y representativos de la ciudad.'),
+            RichText(
+              text: TextSpan(
+                style: TextStyle(color: Colors.black, fontSize: 16),
+                children: [
+                  TextSpan(text: 'Descripción: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                  TextSpan(text: 'Espacio cultural icónico de Cuenca que acoge conciertos, obras de teatro y eventos artísticos.'),
+                ],
+              ),
+            ),
+            SizedBox(height: 8),
+            RichText(
+              text: TextSpan(
+                style: TextStyle(color: Colors.black, fontSize: 16),
+                children: [
+                  TextSpan(text: 'Horario: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                  TextSpan(text: '09:00 - 21:00'),
+                ],
+              ),
+            ),
+            SizedBox(height: 8),
+            buildInfoRow(
+              icon: Icons.location_on,
+              label: 'Dirección',
+              text: 'Mariscal Sucre y Luis Cordero',
+            ),
+            SizedBox(height: 8),
+            buildInfoRow(
+              icon: Icons.phone,
+              label: 'Teléfono',
+              text: '(07) 282 7689',
+            ),
+            SizedBox(height: 8),
+            RichText(
+              text: TextSpan(
+                style: TextStyle(color: Colors.black, fontSize: 16),
+                children: [
+                  TextSpan(text: 'Historia: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                  TextSpan(text: 'Inaugurado en 1878, es uno de los teatros más antiguos y representativos de la ciudad.'),
+                ],
+              ),
+            ),
             SizedBox(height: 10),
             Text('Comparativa antes y ahora:', style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(height: 8),

@@ -25,6 +25,39 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     });
   }
 
+  Widget buildInfoRow({required IconData icon, required String label, required String text}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 20),
+        SizedBox(width: 8),
+        Expanded(
+          child: RichText(
+            text: TextSpan(
+              style: TextStyle(color: Colors.black, fontSize: 16),
+              children: [
+                TextSpan(text: '$label: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                TextSpan(text: text),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildRichText({required String label, required String text}) {
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(color: Colors.black, fontSize: 16),
+        children: [
+          TextSpan(text: '$label: ', style: TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(text: text),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,12 +83,32 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             Text('Tiesto’s', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             Text('4.8 ★★★★★'),
             Divider(),
-            Text('Descripción: Restaurante gourmet de cocina ecuatoriana con presentaciones únicas y ambiente elegante.'),
-            SizedBox(height: 10),
-            Text('Horario: 12:00 - 22:00'),
-            Text('Dirección: Juan Jaramillo 7-34 y Borrero, Cuenca'),
-            Text('Teléfono: (07) 283-2007'),
-            Text('Historia: Fundado en 2005, Tiesto’s ha sido reconocido por reinventar la cocina ecuatoriana con creatividad y calidad.'),
+            buildRichText(
+              label: 'Descripción',
+              text: 'Restaurante gourmet de cocina ecuatoriana con presentaciones únicas y ambiente elegante.',
+            ),
+            SizedBox(height: 8),
+            buildRichText(
+              label: 'Horario',
+              text: '12:00 - 22:00',
+            ),
+            SizedBox(height: 8),
+            buildInfoRow(
+              icon: Icons.location_on,
+              label: 'Dirección',
+              text: 'Juan Jaramillo 7-34 y Borrero, Cuenca',
+            ),
+            SizedBox(height: 8),
+            buildInfoRow(
+              icon: Icons.phone,
+              label: 'Teléfono',
+              text: '(07) 283-2007',
+            ),
+            SizedBox(height: 8),
+            buildRichText(
+              label: 'Historia',
+              text: 'Fundado en 2005, Tiesto’s ha sido reconocido por reinventar la cocina ecuatoriana con creatividad y calidad.',
+            ),
             SizedBox(height: 10),
             Text('Comparativa antes y ahora:', style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(height: 8),

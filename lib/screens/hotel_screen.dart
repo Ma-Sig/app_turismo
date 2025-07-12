@@ -26,6 +26,39 @@ class _HotelScreenState extends State<HotelScreen> {
     });
   }
 
+  Widget buildInfoRow({required IconData icon, required String label, required String text}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 20),
+        SizedBox(width: 8),
+        Expanded(
+          child: RichText(
+            text: TextSpan(
+              style: TextStyle(color: Colors.black, fontSize: 16),
+              children: [
+                TextSpan(text: '$label: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                TextSpan(text: text),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildRichText({required String label, required String text}) {
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(color: Colors.black, fontSize: 16),
+        children: [
+          TextSpan(text: '$label: ', style: TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(text: text),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,14 +85,31 @@ class _HotelScreenState extends State<HotelScreen> {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             Text('4.8 ★★★★★'),
             Divider(),
-            Text(
-              'Descripción: Hotel de lujo con servicios de alta gama, restaurante gourmet y spa.',
+            buildRichText(
+              label: 'Descripción',
+              text: 'Hotel de lujo con servicios de alta gama, restaurante gourmet y spa.',
             ),
-            Text('Horario: 24 horas'),
-            Text('Dirección: Av. Ordóñez Lasso s/n y Felipe II'),
-            Text('Teléfono: (07) 413 4500'),
-            Text(
-              'Historia: Parte de la cadena de hoteles Oro Verde, reconocido por su elegancia y servicio en Ecuador.',
+            SizedBox(height: 8),
+            buildRichText(
+              label: 'Horario',
+              text: '24 horas',
+            ),
+            SizedBox(height: 8),
+            buildInfoRow(
+              icon: Icons.location_on,
+              label: 'Dirección',
+              text: 'Av. Ordóñez Lasso s/n y Felipe II',
+            ),
+            SizedBox(height: 8),
+            buildInfoRow(
+              icon: Icons.phone,
+              label: 'Teléfono',
+              text: '(07) 413 4500',
+            ),
+            SizedBox(height: 8),
+            buildRichText(
+              label: 'Historia',
+              text: 'Parte de la cadena de hoteles Oro Verde, reconocido por su elegancia y servicio en Ecuador.',
             ),
             SizedBox(height: 10),
             Text('Comparativa antes y ahora:',

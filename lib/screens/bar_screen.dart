@@ -26,6 +26,39 @@ class _BarScreenState extends State<BarScreen> {
     });
   }
 
+  Widget buildInfoRow({required IconData icon, required String label, required String text}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 20),
+        SizedBox(width: 8),
+        Expanded(
+          child: RichText(
+            text: TextSpan(
+              style: TextStyle(color: Colors.black, fontSize: 16),
+              children: [
+                TextSpan(text: '$label: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                TextSpan(text: text),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildRichText({required String label, required String text}) {
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(color: Colors.black, fontSize: 16),
+        children: [
+          TextSpan(text: '$label: ', style: TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(text: text),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,30 +81,51 @@ class _BarScreenState extends State<BarScreen> {
           children: [
             Image.asset('assets/bar.jpg'),
             SizedBox(height: 8),
-            Text('Jodoco Belgian Bistro', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text('Jodoco Belgian Bistro',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             Text('4.7 ★★★★☆'),
             Divider(),
-            Text('Descripción: Bar estilo belga con una amplia selección de cervezas artesanales, comida gourmet y ambiente relajado.'),
+            buildRichText(
+              label: 'Descripción',
+              text: 'Bar estilo belga con una amplia selección de cervezas artesanales, comida gourmet y ambiente relajado.',
+            ),
+            SizedBox(height: 8),
+            buildRichText(
+              label: 'Horario',
+              text: '17:00 - 00:00',
+            ),
+            SizedBox(height: 8),
+            buildInfoRow(
+              icon: Icons.location_on,
+              label: 'Dirección',
+              text: 'Honorato Vásquez 6-41 y Hermano Miguel',
+            ),
+            SizedBox(height: 8),
+            buildInfoRow(
+              icon: Icons.phone,
+              label: 'Teléfono',
+              text: '099 878 2842',
+            ),
+            SizedBox(height: 8),
+            buildRichText(
+              label: 'Historia',
+              text: 'Fundado en 2015, se ha convertido en un punto de encuentro favorito para los amantes de la cerveza artesanal y buena comida.',
+            ),
             SizedBox(height: 10),
-            Text('Horario: 17:00 - 00:00'),
-            Text('Dirección: Honorato Vásquez 6-41 y Hermano Miguel'),
-            Text('Teléfono: 099 878 2842'),
-            Text('Historia: Fundado en 2015, se ha convertido en un punto de encuentro favorito para los amantes de la cerveza artesanal y buena comida.'),
-          SizedBox(height: 10),
             Text('Comparativa antes y ahora:', style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(height: 8),
             Row(
               children: [
                 Expanded(
                   child: SizedBox(
-                    height: 120, // Ajusta la altura aquí
+                    height: 120,
                     child: Image.asset('assets/bar_antes.jpg', fit: BoxFit.cover),
                   ),
                 ),
                 SizedBox(width: 8),
                 Expanded(
                   child: SizedBox(
-                    height: 120, // Misma altura
+                    height: 120,
                     child: Image.asset('assets/bar.jpg', fit: BoxFit.cover),
                   ),
                 ),
