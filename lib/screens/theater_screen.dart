@@ -6,13 +6,15 @@ class TheaterScreen extends StatefulWidget {
   State<TheaterScreen> createState() => _TheaterScreenState();
 }
 
-class _TheaterScreenState extends State<TheaterScreen> {
+class _TheaterScreenState extends State<TheaterScreen> with SingleTickerProviderStateMixin {
   final Map<String, String> theaterPlace = {
     'name': 'Teatro Sucre',
     'address': 'Mariscal Sucre y Luis Cordero',
     'image': 'assets/theater.jpg',
-    'type': 'theater',
+    'type': 'tourist',
   };
+
+  late TabController _tabController;
 
   bool get isFavorite => FavoritesManager.isFavorite(theaterPlace);
 
@@ -26,26 +28,128 @@ class _TheaterScreenState extends State<TheaterScreen> {
     });
   }
 
-  Widget buildInfoRow({required IconData icon, required String label, required String text}) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 20),
-        SizedBox(width: 8),
-        Expanded(
-          child: RichText(
-            text: TextSpan(
-              style: TextStyle(color: Colors.black, fontSize: 16),
+  @override
+  void initState() {
+    _tabController = TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  Widget buildGeneralView() {
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset('assets/theater.jpg'),
+          SizedBox(height: 8),
+          Text('Teatro Sucre', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          Text('4.9 ★★★★★ (29,127)', style: TextStyle(fontSize: 16)),
+          SizedBox(height: 8),
+          Text(
+            'Famoso teatro renacentista de 1896, auge de la época republicana en Cuenca, con capacidad para conciertos y eventos culturales.',
+            style: TextStyle(fontSize: 16),
+          ),
+          Divider(height: 24),
+          ListTile(
+            leading: Icon(Icons.location_on),
+            title: Text('Mariscal Sucre y Luis Cordero'),
+          ),
+          ListTile(
+            leading: Icon(Icons.language),
+            title: Text('https://teatrocom.ec/'),
+          ),
+          ListTile(
+            leading: Icon(Icons.phone),
+            title: Text('(593) 3622-1880'),
+          ),
+          SizedBox(height: 16),
+          Text('Fotos', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          SizedBox(height: 8),
+          SizedBox(
+            height: 100,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
               children: [
-                TextSpan(text: '$label: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                TextSpan(text: text),
+                Image.asset('assets/theater.jpg'),
+                SizedBox(width: 8),
+                Image.asset('assets/teatro_antes.jpg'),
+                SizedBox(width: 8),
+                Image.asset('assets/theater.jpg'),
               ],
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
+
+  Widget buildAboutView() {
+  return SingleChildScrollView(
+    padding: EdgeInsets.all(16),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Teatro famoso, inaugurado en el año 1896.'),
+        Divider(height: 24),
+        Text('Accesibilidad', style: TextStyle(fontWeight: FontWeight.bold)),
+        SizedBox(height: 8),
+        Column(
+          children: [
+            ListTile(
+              leading: Icon(Icons.accessible_forward),
+              title: Text('Acceso para silla de ruedas'),
+              trailing: Icon(Icons.check),
+            ),
+            ListTile(
+              leading: Icon(Icons.baby_changing_station),
+              title: Text('Baños para niños'),
+              trailing: Icon(Icons.check),
+            ),
+            ListTile(
+              leading: Icon(Icons.accessible),
+              title: Text('Rampas de acceso'),
+              trailing: Icon(Icons.check),
+            ),
+            ListTile(
+              leading: Icon(Icons.elevator),
+              title: Text('Elevador para movilidad reducida'),
+              trailing: Icon(Icons.check),
+            ),
+          ],
+        ),
+        Divider(height: 24),
+        Text('Comodidades', style: TextStyle(fontWeight: FontWeight.bold)),
+        SizedBox(height: 8),
+        Column(
+          children: [
+            ListTile(
+              leading: Icon(Icons.wc),
+              title: Text('Baños'),
+              trailing: Icon(Icons.check),
+            ),
+            ListTile(
+              leading: Icon(Icons.family_restroom),
+              title: Text('Se puede traer niños'),
+              trailing: Icon(Icons.check),
+            ),
+            ListTile(
+              leading: Icon(Icons.restaurant),
+              title: Text('Restaurante disponible'),
+              trailing: Icon(Icons.check),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,80 +162,20 @@ class _TheaterScreenState extends State<TheaterScreen> {
             onPressed: _toggleFavorite,
           ),
         ],
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.asset('assets/theater.jpg'),
-            SizedBox(height: 8),
-            Text('Teatro Sucre', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            Text('4.6 ★★★★☆'),
-            Divider(),
-            RichText(
-              text: TextSpan(
-                style: TextStyle(color: Colors.black, fontSize: 16),
-                children: [
-                  TextSpan(text: 'Descripción: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                  TextSpan(text: 'Espacio cultural icónico de Cuenca que acoge conciertos, obras de teatro y eventos artísticos.'),
-                ],
-              ),
-            ),
-            SizedBox(height: 8),
-            RichText(
-              text: TextSpan(
-                style: TextStyle(color: Colors.black, fontSize: 16),
-                children: [
-                  TextSpan(text: 'Horario: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                  TextSpan(text: '09:00 - 21:00'),
-                ],
-              ),
-            ),
-            SizedBox(height: 8),
-            buildInfoRow(
-              icon: Icons.location_on,
-              label: 'Dirección',
-              text: 'Mariscal Sucre y Luis Cordero',
-            ),
-            SizedBox(height: 8),
-            buildInfoRow(
-              icon: Icons.phone,
-              label: 'Teléfono',
-              text: '(07) 282 7689',
-            ),
-            SizedBox(height: 8),
-            RichText(
-              text: TextSpan(
-                style: TextStyle(color: Colors.black, fontSize: 16),
-                children: [
-                  TextSpan(text: 'Historia: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                  TextSpan(text: 'Inaugurado en 1878, es uno de los teatros más antiguos y representativos de la ciudad.'),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-            Text('Comparativa antes y ahora:', style: TextStyle(fontWeight: FontWeight.bold)),
-            SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
-                  child: SizedBox(
-                    height: 120,
-                    child: Image.asset('assets/teatro_antes.jpg', fit: BoxFit.cover),
-                  ),
-                ),
-                SizedBox(width: 8),
-                Expanded(
-                  child: SizedBox(
-                    height: 120,
-                    child: Image.asset('assets/theater.jpg', fit: BoxFit.cover),
-                  ),
-                ),
-              ],
-            ),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: [
+            Tab(text: 'Vista General'),
+            Tab(text: 'Sobre'),
           ],
         ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          buildGeneralView(),
+          buildAboutView(),
+        ],
       ),
     );
   }

@@ -1,6 +1,6 @@
 class FavoritesManager {
   static final List<Map<String, String>> favorites = [];
-
+  
   static void add(Map<String, String> place) {
     if (!favorites.any((fav) => fav['name'] == place['name'])) {
       favorites.add(place);

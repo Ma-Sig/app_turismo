@@ -21,26 +21,14 @@ class FavoritesScreen extends StatelessWidget {
                     title: Text(place['name'] ?? ''),
                     subtitle: Text(place['address'] ?? ''),
                     onTap: () {
-                      // Navega según el tipo
-                      switch (place['type']) {
-                        case 'hotel':
-                          Navigator.pushNamed(context, '/hotel');
-                          break;
-                        case 'bar':
-                          Navigator.pushNamed(context, '/bar');
-                          break;
-                        case 'restaurant':
-                          Navigator.pushNamed(context, '/restaurant');
-                          break;
-                        case 'tourist':
-                          Navigator.pushNamed(context, '/theater');
-                          break;
-                        case 'mall':
-                          Navigator.pushNamed(context, '/mall');
-                          break;
-                        // Agrega más casos si tienes más tipos
-                        default:
-                          break;
+                      final type = place['type'];
+                      final route = _getRouteForType(type);
+                      if (route != null) {
+                        Navigator.pushNamed(
+                          context,
+                          route,
+                          arguments: place, // <-- pasa el lugar como argumento
+                        );
                       }
                     },
                   ),
@@ -48,5 +36,22 @@ class FavoritesScreen extends StatelessWidget {
               },
             ),
     );
+  }
+
+  String? _getRouteForType(String? type) {
+    switch (type) {
+      case 'hotel':
+        return '/hotel';
+      case 'bar':
+        return '/bar';
+      case 'restaurant':
+        return '/restaurant';
+      case 'tourist':
+        return '/theater';
+      case 'mall':
+        return '/mall';
+      default:
+        return null;
+    }
   }
 }
